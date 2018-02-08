@@ -40,5 +40,9 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		api_key: api_key,
 	}
 
+	if err := config.loadAndValidate(); err != nil {
+		return nil, err
+	}
+
 	return &config, nil
 }

@@ -12,6 +12,5 @@ func dataSourceWormlyHost() *schema.Resource {
 }
 
 func dataSourceWormlyHostRead(d *schema.ResourceData, meta interface{}) error {
-	// TODO
-	return nil
+
 }
