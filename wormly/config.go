@@ -3,6 +3,9 @@ package wormly
 import (
 	"fmt"
 	"log"
+	"runtime"
+
+	"github.com/hashicorp/terraform/terraform"
 )
 
 type Config struct {
@@ -13,6 +16,8 @@ type Config struct {
 }
 
 func (c *Config) loadAndValidate() error {
+	log.Printf("[INFO] Configuring Wormly Provider")
+
 	client := NewWormlyClient()
 
 	versionString := terraform.VersionString()
@@ -20,8 +25,6 @@ func (c *Config) loadAndValidate() error {
 
 	c.client = client
 	c.userAgent = userAgent
-
-	log.Printf("[INFO] HELLO WORLD")
 
 	return nil
 }

@@ -25,11 +25,11 @@ func Provider() terraform.ResourceProvider {
 
 		ConfigureFunc: providerConfigure,
 		DataSourcesMap: map[string]*schema.Resource{
-			"wormly_host": dataSourceWormlyHost(),
+			"wormly_hosts": dataSourceWormlyHosts(),
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"wormly_host":   resourceWormlyHost(),
-			"wormly_sensor": resourceWormlySensor(),
+			// "wormly_host":   resourceWormlyHost(),
+			// "wormly_sensor": resourceWormlySensor(),
 		},
 	}
 }

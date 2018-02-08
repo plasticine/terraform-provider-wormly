@@ -1,13 +1,14 @@
 package wormly
 
 import (
-	"flag"
-	"fmt"
-	"log"
+	// "flag"
+	// "log"
 	"net/http"
-	"os"
+	"fmt"
+	// "os"
 
-	"github.com/coreos/pkg/flagutil"
+	// "github.com/coreos/pkg/flagutil"
+	"github.com/dghubble/sling"
 )
 
 const baseURL = "https://api.wormly.com/"
@@ -15,6 +16,11 @@ const baseURL = "https://api.wormly.com/"
 type HostStatus struct {
 	errorcode int `json:"errorcode"`
 	// status    string `json:"status"`
+}
+
+type WormlyError struct {
+    ErrorCode          int   `json:"errorcode"`
+    ErrorMessage     string   `json:"errormsg"`
 }
 
 type WormlyRequestParams struct {
@@ -38,17 +44,20 @@ func NewHostService(httpClient *http.Client) *HostService {
 	}
 }
 
-func (s *HostService) List() ([]HostStatus, *http.Response, error) {
-	hosts := new([]Host)
+func (s *HostService) List() (*[]HostStatus, *http.Response, error) {
+	wormlyHosts := new([]HostStatus)
+	wormlyError := new(WormlyError)
 	body := &WormlyRequestParams{
-		key:      "",
-		response: "json",
-		cmd:      "getHostStatus",
+		Key:          "",
+		ResponseType: "json",
+		Command:      "getHostStatus",
 	}
 
-	resp, err := s.sling.New().Post().BodyJSON(body).Receive(hosts, githubError)
+	resp, err := s.sling.New().Post("/").BodyJSON(body).Receive(wormlyHosts, wormlyError)
 
-	return hosts, resp, err
+	fmt.Println(wormlyHosts, wormlyError, resp, err)
+
+	return wormlyHosts, resp, err
 }
 
 func NewWormlyClient() *WormlyClient {
